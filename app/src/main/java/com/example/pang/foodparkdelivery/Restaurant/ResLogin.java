@@ -70,7 +70,7 @@ public class ResLogin extends Activity {
         System.out.println("Pass" + pass);
 
         Ion.with(getApplicationContext())
-                .load("http://192.168.1.14/testPJ/ResTable/ResLogin.php")
+                .load("http://192.168.136.213/testPJ/ResTable/ResLogin.php")
                 .setBodyParameter("login", EdUser.getText().toString())
                 .setBodyParameter("password", passED.getText().toString())
                 .asJsonObject()
