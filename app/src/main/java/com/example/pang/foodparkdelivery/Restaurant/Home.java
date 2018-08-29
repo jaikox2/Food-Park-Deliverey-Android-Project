@@ -1,5 +1,6 @@
 package com.example.pang.foodparkdelivery.Restaurant;
 
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +20,17 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class Home extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FoodAdapterRes adapter;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String User_id = "userKey";            //save session
+    SharedPreferences sharedpreferences;
 
     @Nullable
     @Override
@@ -43,11 +50,15 @@ public class Home extends Fragment {
     }
 
     private void poultererView(){
+
+        sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String user_id = sharedpreferences.getString(User_id, "");
         final ArrayList<food> itemArray = new ArrayList<>();
-        final String baseUrl = "";
+        final String baseUrl = "http://192.168.1.14/testPJ/FoodDB/";
 
         Ion.with(this)
-                .load(baseUrl+"foodResList.php")
+                .load(baseUrl+"FoodRecycleView.php")
+                .setMultipartParameter("Res_id",user_id)
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override

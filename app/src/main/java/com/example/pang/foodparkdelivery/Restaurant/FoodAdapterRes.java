@@ -22,6 +22,7 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
     private List<food> mFoodList;
     private Context mContext;
     private RecyclerView mRecyclerV;
+    final String baseUrl = "http://192.168.1.14/testPJ/FoodDB/";
 
 
 
@@ -83,8 +84,9 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
         holder.foodPriceTxtV.setText("ราคา: " + food.getPrice()+" บาท");
        // Bitmap imagebitmap = DbBitmapUtility.getImage(food.getImage());
        // holder.foodImageImgV.setImageBitmap(imagebitmap);
+        System.out.println(food.getImage());
         Ion.with(mContext)
-                .load("")
+                .load(baseUrl+"upload-img/"+food.getImage())
                 .intoImageView(holder.foodImageImgV);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
