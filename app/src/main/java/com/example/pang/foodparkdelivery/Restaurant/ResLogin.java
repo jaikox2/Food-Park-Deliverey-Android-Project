@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pang.foodparkdelivery.R;
+import com.example.pang.foodparkdelivery.ipConfig;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -24,6 +25,8 @@ public class ResLogin extends Activity {
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String User_id = "userKey";            //save session
     SharedPreferences sharedpreferences;
+
+
 
 
     @Override
@@ -69,8 +72,11 @@ public class ResLogin extends Activity {
         System.out.println("User" + user);
         System.out.println("Pass" + pass);
 
+        ipConfig ip = new ipConfig();
+        final String baseUrl = ip.getBaseUrlRes() ;
+
         Ion.with(getApplicationContext())
-                .load("http://192.168.136.213/testPJ/ResTable/ResLogin.php")
+                .load(baseUrl+"ResLogin.php")
                 .setBodyParameter("login", EdUser.getText().toString())
                 .setBodyParameter("password", passED.getText().toString())
                 .asJsonObject()

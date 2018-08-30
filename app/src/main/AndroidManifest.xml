@@ -30,7 +30,8 @@
         <activity android:name=".Restaurant.Home" />
         <activity android:name=".Restaurant.FillFood" />
         <activity android:name=".Restaurant.profile" />
-        <activity android:name=".Restaurant.ResRegister"></activity>
+        <activity android:name=".Restaurant.ResRegister" />
+        <activity android:name=".Restaurant.UpdateFood"></activity>
     </application>
 
 </manifest>

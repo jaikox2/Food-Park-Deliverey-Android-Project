@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.pang.foodparkdelivery.R;
+import com.example.pang.foodparkdelivery.ipConfig;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -18,6 +19,7 @@ import com.koushikdutta.ion.Ion;
 public class ResRegister extends Activity {
     Button register,cancel;
     EditText name,surname,phone,email,pass,Cpass,resName,resAdd,resMapAdd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,13 @@ public class ResRegister extends Activity {
         String pass1 = pass.getText().toString();
         String pass2 = Cpass.getText().toString();
 
+        ipConfig ip = new ipConfig();
+        final String baseUrl = ip.getBaseUrlRes() ;
+
         if(pass1.equals(pass2)) {
 
             Ion.with(getApplicationContext())
-                    .load("http://192.168.1.14/testPJ/ResTable/ResRegister.php")
+                    .load(baseUrl+"ResRegister.php")
                     .setMultipartParameter("name", name.getText().toString())
                     .setMultipartParameter("surname", surname.getText().toString())
                     .setMultipartParameter("phone", phone.getText().toString())

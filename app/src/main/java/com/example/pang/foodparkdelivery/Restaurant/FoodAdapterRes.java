@@ -1,5 +1,6 @@
 package com.example.pang.foodparkdelivery.Restaurant;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pang.foodparkdelivery.R;
 import com.example.pang.foodparkdelivery.food;
+import com.example.pang.foodparkdelivery.ipConfig;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
@@ -22,7 +27,7 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
     private List<food> mFoodList;
     private Context mContext;
     private RecyclerView mRecyclerV;
-    final String baseUrl = "http://192.168.1.14/testPJ/FoodDB/";
+
 
 
 
@@ -84,7 +89,8 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
         holder.foodPriceTxtV.setText("ราคา: " + food.getPrice()+" บาท");
        // Bitmap imagebitmap = DbBitmapUtility.getImage(food.getImage());
        // holder.foodImageImgV.setImageBitmap(imagebitmap);
-        System.out.println(food.getImage());
+        ipConfig ip = new ipConfig();
+        final String baseUrl = ip.getBaseUrlFood() ;
         Ion.with(mContext)
                 .load(baseUrl+"upload-img/"+food.getImage())
                 .intoImageView(holder.foodImageImgV);
@@ -100,15 +106,25 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
                     public void onClick(DialogInterface dialog, int which) {
 
                         //go to update activity
-                        goToUpdateActivity(food.getId());
+                        goToUpdateActivity(food.getId(),food.getName(),food.getDetail(),food.getImage(),food.getPrice(),food.getStamp());
 
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //SQLiteHelper dbHelper = new SQLiteHelper(mContext);
-                        //dbHelper.deleteFoodRecord(food.getId(), mContext);
+                        long id = food.getId();
+                        String food_id = Long.toString(id);
+                        Ion.with(mContext)
+                                .load(baseUrl+"DeleteFood.php")
+                                .setBodyParameter("food_id", food_id)
+                                .asString()
+                                .setCallback(new FutureCallback<String>() {
+                                    @Override
+                                    public void onCompleted(Exception e, String result) {
+                                            Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();
+                                    }
+                                });
 
                         mFoodList.remove(position);
                         // mRecyclerV.removeViewAt(position);
@@ -130,10 +146,15 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
 
     }
 
-    private void goToUpdateActivity(long personId){
-      //  Intent goToUpdate = new Intent(mContext, UpdateActivity.class);
-       // goToUpdate.putExtra("USER_ID", personId);
-      //  mContext.startActivity(goToUpdate);
+    private void goToUpdateActivity(long foodId,String name,String detail,String img ,double price ,double stamp){
+        Intent goToUpdate = new Intent(mContext, UpdateFood.class);
+        goToUpdate.putExtra("ID", foodId);
+        goToUpdate.putExtra("name", name);
+        goToUpdate.putExtra("detail", detail);
+        goToUpdate.putExtra("img", img);
+        goToUpdate.putExtra("price", price);
+        goToUpdate.putExtra("stamp", stamp);
+        mContext.startActivity(goToUpdate);
     }
 
     @Override

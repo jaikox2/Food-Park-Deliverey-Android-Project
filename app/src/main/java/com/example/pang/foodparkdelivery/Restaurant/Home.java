@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.pang.foodparkdelivery.R;
 import com.example.pang.foodparkdelivery.food;
+import com.example.pang.foodparkdelivery.ipConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -31,6 +32,7 @@ public class Home extends Fragment {
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String User_id = "userKey";            //save session
     SharedPreferences sharedpreferences;
+
 
     @Nullable
     @Override
@@ -54,7 +56,9 @@ public class Home extends Fragment {
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         String user_id = sharedpreferences.getString(User_id, "");
         final ArrayList<food> itemArray = new ArrayList<>();
-        final String baseUrl = "http://192.168.1.14/testPJ/FoodDB/";
+        ipConfig ip = new ipConfig();
+        final String baseUrl = ip.getBaseUrlFood() ;
+
 
         Ion.with(this)
                 .load(baseUrl+"FoodRecycleView.php")
@@ -69,8 +73,10 @@ public class Home extends Fragment {
                             jsonObject = (JsonObject)result.get(i);
                             item.setId(jsonObject.get("id").getAsInt());
                             item.setName(jsonObject.get("name").getAsString());
+                            item.setDetail(jsonObject.get("detail").getAsString());
                             item.setImage(jsonObject.get("img").getAsString());
                             item.setPrice(jsonObject.get("price").getAsDouble());
+                            item.setStamp(jsonObject.get("stamp").getAsDouble());
                             item.setBaseUrl(baseUrl);
                             itemArray.add(item);
                         }

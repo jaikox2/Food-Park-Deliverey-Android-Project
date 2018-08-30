@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Restaurant.FillFood">
+    tools:context=".Restaurant.UpdateFood">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -172,7 +172,6 @@
                 android:layout_alignStart="@+id/edtPrice"
                 android:layout_below="@+id/edtPrice"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_profile_black_24dp1"
                 android:background="#F0F3F6" />
 
             <android.support.design.widget.FloatingActionButton
@@ -182,7 +181,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="21dp"
-                android:layout_marginLeft="21dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="21dp"
                 android:layout_marginStart="155dp"
                 android:layout_alignLeft="@+id/edtPrice"
@@ -202,8 +201,7 @@
                 android:layout_marginTop="16dp"
                 android:text="บันทึก"
                 android:textSize="18sp" />
-
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
