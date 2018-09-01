@@ -1,7 +1,7 @@
 package com.example.pang.foodparkdelivery;
 
 public class ipConfig {
-    public String baseUrl= "http://192.168.1.14/testPJ/";
+    public String baseUrl= "http://192.168.136.234/testPJ/";
 
     public ipConfig() {
     }

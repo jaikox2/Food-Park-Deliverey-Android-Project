@@ -20,6 +20,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -54,13 +56,12 @@ public class Home extends Fragment {
     private void poultererView(){
 
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        String user_id = sharedpreferences.getString(User_id, "");
+        final String user_id = sharedpreferences.getString(User_id, "");
         final ArrayList<food> itemArray = new ArrayList<>();
         ipConfig ip = new ipConfig();
         final String baseUrl = ip.getBaseUrlFood() ;
 
-
-        Ion.with(this)
+        Ion.with(getContext())
                 .load(baseUrl+"FoodRecycleView.php")
                 .setMultipartParameter("Res_id",user_id)
                 .asJsonArray()

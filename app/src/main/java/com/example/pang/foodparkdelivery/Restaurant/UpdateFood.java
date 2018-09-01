@@ -26,12 +26,15 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
+import com.luseen.simplepermission.permissions.PermissionActivity;
+import com.luseen.simplepermission.permissions.SinglePermissionCallback;
 
 import java.io.File;
+import java.security.Permission;
 
 import static android.content.ContentValues.TAG;
 
-public class UpdateFood extends AppCompatActivity {
+public class UpdateFood extends PermissionActivity {
 
     private long receivedFoodId;
     private String receivedName,receivedDetail,receivedImg;
@@ -141,7 +144,18 @@ public class UpdateFood extends AppCompatActivity {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGallery();
+                requestPermission(com.luseen.simplepermission.permissions.Permission.READ_EXTERNAL_STORAGE, new SinglePermissionCallback() {
+                    @Override
+                    public void onPermissionResult(boolean granted, boolean isDeniedForever) {
+                        if(granted) {
+
+                            openGallery();
+
+                        } else {
+                            Toast.makeText(getBaseContext(), "ถ้าไม่อนุญาต จะไม่สามารถเข้าถึงไฟล์ได้", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -160,7 +174,6 @@ public class UpdateFood extends AppCompatActivity {
         String detail = edtDetail.getText().toString();
         String price = edtPrice.getText().toString();
         String stamp = edtStamp.getText().toString();
-
         String food_id = Long.toString(receivedFoodId);
         byte [] image = imageByte;
 
@@ -186,19 +199,24 @@ public class UpdateFood extends AppCompatActivity {
         }else {
 
             String path = RealPath;
+            System.out.println("Path:"+path);
 
             final Notification.Builder notifBuilder = new Notification.Builder(getApplicationContext())
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentText("กำลังอัปโหลด");
 
-            final int id = 1122;
+            final int id = 1133;
             final NotificationManager notifMan = (NotificationManager) getApplication().getSystemService(NOTIFICATION_SERVICE);
             mIsUploading = true;
 
             ipConfig ip = new ipConfig();
             final String baseUrl = ip.getBaseUrlFood() ;
 
-            Ion.with(this)
+            System.out.println("URL:"+baseUrl);
+            System.out.println("Food_id:"+food_id);
+            System.out.println("User_id:"+user_id);
+
+            Ion.with(getApplicationContext())
                     .load(baseUrl+"UpdateFood.php")
                     .uploadProgress(new ProgressCallback() {
                         @Override
@@ -225,15 +243,16 @@ public class UpdateFood extends AppCompatActivity {
                             Notification notif = notifBuilder.build();
                             notifMan.notify(id, notif);
 
-                            String anser ="uploaded";
 
-                            if (res.equals("uploaded")) {
+                            if (res.equals("update success")) {
                                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                                 edtName.setText("");
                                 edtDetail.setText("");
                                 edtPrice.setText("");
                                 edtStamp.setText("");
                                 imageView.setImageResource(0);
+
+                                 goBackHome();
 
                             } else {
                                 Toast.makeText(getApplicationContext(), "Can't saved", Toast.LENGTH_SHORT).show();
@@ -242,7 +261,7 @@ public class UpdateFood extends AppCompatActivity {
                             mIsUploading = false;
                         }
                     });
-            goBackHome();
+
         }
 
 
