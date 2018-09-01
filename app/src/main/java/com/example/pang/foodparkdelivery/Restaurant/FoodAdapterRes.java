@@ -118,6 +118,7 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
                         Ion.with(mContext)
                                 .load(baseUrl+"DeleteFood.php")
                                 .setBodyParameter("food_id", food_id)
+                                .setBodyParameter("img", food.getImage())
                                 .asString()
                                 .setCallback(new FutureCallback<String>() {
                                     @Override

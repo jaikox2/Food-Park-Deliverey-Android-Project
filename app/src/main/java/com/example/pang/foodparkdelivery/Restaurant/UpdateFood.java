@@ -48,7 +48,7 @@ public class UpdateFood extends PermissionActivity {
     public food UpdateFood;
     public DbBitmapUtility bitmapUtility;
     byte[] imageByte ;
-    public String RealPath;
+    public String RealPath = "null";
     private boolean mIsUploading = false;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -175,6 +175,7 @@ public class UpdateFood extends PermissionActivity {
         String price = edtPrice.getText().toString();
         String stamp = edtStamp.getText().toString();
         String food_id = Long.toString(receivedFoodId);
+        String Img = receivedImg;
         byte [] image = imageByte;
 
         sharedpreferences = this.getApplication().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
@@ -193,7 +194,7 @@ public class UpdateFood extends PermissionActivity {
         } else if(stamp.isEmpty()){
             //error name is empty
             Toast.makeText(this, "You must enter an stamp", Toast.LENGTH_SHORT).show();
-        }else if(image == null){
+        }else if(Img.isEmpty()){
             //error name is empty
             Toast.makeText(this, "You must enter an image link", Toast.LENGTH_SHORT).show();
         }else {
@@ -216,51 +217,90 @@ public class UpdateFood extends PermissionActivity {
             System.out.println("Food_id:"+food_id);
             System.out.println("User_id:"+user_id);
 
-            Ion.with(getApplicationContext())
-                    .load(baseUrl+"UpdateFood.php")
-                    .uploadProgress(new ProgressCallback() {
-                        @Override
-                        public void onProgress(long loaded, long total) {
-                            notifBuilder.setProgress((int) total, (int) loaded, false);
-                            Notification notif = notifBuilder.build();
-                            notifMan.notify(id, notif);
-                        }
-                    })
-                    .setMultipartFile("upload_file", new File(path))
-                    .setMultipartParameter("food_id",food_id)
-                    .setMultipartParameter("name",name)
-                    .setMultipartParameter("detail",detail)
-                    .setMultipartParameter("price",price)
-                    .setMultipartParameter("stamp",stamp)
-                    .setMultipartParameter("Res_id",user_id)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            String res = result.get("status").getAsString();
-                            notifBuilder.setProgress(100, 100, false);
-                            notifBuilder.setContentText(res);
-                            Notification notif = notifBuilder.build();
-                            notifMan.notify(id, notif);
 
 
-                            if (res.equals("update success")) {
-                                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                                edtName.setText("");
-                                edtDetail.setText("");
-                                edtPrice.setText("");
-                                edtStamp.setText("");
-                                imageView.setImageResource(0);
+            if(path.equals("null")) {
 
-                                 goBackHome();
+                Ion.with(getApplicationContext())
+                        .load(baseUrl + "UpdateFood.php")
+                        .setMultipartParameter("food_id", food_id)
+                        .setMultipartParameter("name", name)
+                        .setMultipartParameter("detail", detail)
+                        .setMultipartParameter("img", Img)
+                        .setMultipartParameter("price", price)
+                        .setMultipartParameter("stamp", stamp)
+                        .setMultipartParameter("Res_id", user_id)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                String res = result.get("status").getAsString();
+                                if (res.equals("update success")) {
+                                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                                    edtName.setText("");
+                                    edtDetail.setText("");
+                                    edtPrice.setText("");
+                                    edtStamp.setText("");
+                                    imageView.setImageResource(0);
 
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Can't saved", Toast.LENGTH_SHORT).show();
+                                    goBackHome();
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Can't saved", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
+                        });
+            }else {
 
-                            mIsUploading = false;
-                        }
-                    });
+                Ion.with(getApplicationContext())
+                        .load(baseUrl + "UpdateFood.php")
+                        .uploadProgress(new ProgressCallback() {
+                            @Override
+                            public void onProgress(long loaded, long total) {
+                                notifBuilder.setProgress((int) total, (int) loaded, false);
+                                Notification notif = notifBuilder.build();
+                                notifMan.notify(id, notif);
+                            }
+                        })
+                        .setMultipartFile("upload_file", new File(path))
+                        .setMultipartParameter("food_id", food_id)
+                        .setMultipartParameter("name", name)
+                        .setMultipartParameter("detail", detail)
+                        .setMultipartParameter("img", Img)
+                        .setMultipartParameter("price", price)
+                        .setMultipartParameter("stamp", stamp)
+                        .setMultipartParameter("Res_id", user_id)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                String res = result.get("status").getAsString();
+                                notifBuilder.setProgress(100, 100, false);
+                                notifBuilder.setContentText(res);
+                                Notification notif = notifBuilder.build();
+                                notifMan.notify(id, notif);
+
+
+                                if (res.equals("update success")) {
+                                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                                    edtName.setText("");
+                                    edtDetail.setText("");
+                                    edtPrice.setText("");
+                                    edtStamp.setText("");
+                                    imageView.setImageResource(0);
+
+                                    goBackHome();
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Can't saved", Toast.LENGTH_SHORT).show();
+                                }
+
+                                mIsUploading = false;
+                            }
+                        });
+
+            }
 
         }
 
