@@ -17,7 +17,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 public class ResRegister extends Activity {
-    Button register,cancel;
+    Button register,cancel,map;
     EditText name,surname,phone,email,pass,Cpass,resName,resAdd,resMapAdd;
 
 
@@ -40,6 +40,14 @@ public class ResRegister extends Activity {
         resMapAdd = (EditText) findViewById(R.id.editResMapAdd);
         cancel = (Button) findViewById(R.id.Cancel);
         register = (Button) findViewById(R.id.Register);
+        map = (Button) findViewById(R.id.mapbtn);
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ShowMapAndSubmit.class));
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
