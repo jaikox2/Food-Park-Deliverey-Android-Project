@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -31,4 +36,8 @@ dependencies {
     compile 'com.github.armcha:SimplePermissions:1.0.0'
     implementation 'com.android.support:cardview-v7:26.1.0'
     //compile 'com.nbsp:library:1.2'
+
+    //Sidemenu
+    compile 'com.yalantis:sidemenu:1.0'
+    compile 'com.github.ozodrukh:CircularReveal:1.0.4'
 }

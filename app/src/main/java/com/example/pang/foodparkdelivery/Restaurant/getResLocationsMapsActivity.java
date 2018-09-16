@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.pang.foodparkdelivery.R;
@@ -28,11 +29,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 
-public class getResLocationsMapsActivity extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener {
+public class getResLocationsMapsActivity extends Fragment implements OnMapReadyCallback,GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> listPoints;
+    public Button btnmap;
+    public double lat=0.0,lng=0.0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,7 +45,14 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        btnmap = (Button) view.findViewById(R.id.btnmap);
 
+        btnmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Lat = "+lat+":Lng = "+lng, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         listPoints = new ArrayList<>();
         return view;
@@ -58,7 +68,6 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setOnMapLongClickListener(this);
         mMap.setOnMapClickListener(this);
 
     }
@@ -75,17 +84,6 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
         }
     }
 
-
-    @Override
-    public void onMapLongClick(LatLng latLng) {
-        if(mMap != null){
-            mMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title("You are here")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        }
-    }
-
     @Override
     public void onMapClick(LatLng latLng) {
         if(mMap != null){
@@ -94,6 +92,8 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
                     .position(latLng)
                     .title("I'm here")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            lat = latLng.latitude;
+            lng = latLng.longitude;
         }
     }
 }
