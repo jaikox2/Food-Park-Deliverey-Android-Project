@@ -25,7 +25,8 @@ import java.util.TimerTask;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class Home extends Fragment {
+public class
+Home extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
