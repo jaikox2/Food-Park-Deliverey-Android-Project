@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,6 +103,15 @@ public class UpdateFood extends PermissionActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_food);
@@ -113,6 +123,11 @@ public class UpdateFood extends PermissionActivity {
         imageView = (ImageView) findViewById(R.id.imageView2);
         button = (Button) findViewById(R.id.button);
         actionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+
+
+        //back button
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         try {

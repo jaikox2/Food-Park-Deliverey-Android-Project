@@ -1,15 +1,20 @@
 package com.example.pang.foodparkdelivery.Restaurant;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +27,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
+
+import static android.graphics.Color.parseColor;
 
 public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHolder> {
     private List<food> mFoodList;
@@ -96,11 +103,14 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
                 .intoImageView(holder.foodImageImgV);
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Choose option");
-                builder.setMessage("Update or delete user?");
+                //"Choose option"
+                //"Update or delete food menu?"
+                builder.setMessage("Update or delete food menu?");
                 builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -140,7 +150,18 @@ public class FoodAdapterRes extends RecyclerView.Adapter<FoodAdapterRes.ViewHold
                         dialog.dismiss();
                     }
                 });
-                builder.create().show();
+                //builder.create().show();
+                AlertDialog alert = builder.create();
+                alert.show();
+                Button nbutton = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+                //Set negative button text color
+                nbutton.setTextColor(Color.parseColor("#5f6f88"));
+                Button pbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                //Set negative button text color
+                pbutton.setTextColor(Color.parseColor("#5f6f88"));
+                Button cbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                //Set negative button text color
+                cbutton.setTextColor(Color.parseColor("#5f6f88"));
             }
         });
 
