@@ -3,20 +3,29 @@ package com.example.pang.foodparkdelivery.Restaurant;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.pang.foodparkdelivery.MainActivity;
 import com.example.pang.foodparkdelivery.R;
+import com.example.pang.foodparkdelivery.ipConfig;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,11 +34,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
 
-public class getResLocationsMapsActivity extends Fragment implements OnMapReadyCallback,GoogleMap.OnMapClickListener {
+public class getResLocationsMapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
@@ -37,25 +49,37 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
     public Button btnmap;
     public double lat=0.0,lng=0.0;
 
+    private String name,surname,phone,email,pass,resName,resAdd,resMapAdd;
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_get_res_locations_maps, null);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_get_res_locations_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        btnmap = (Button) view.findViewById(R.id.btnmap);
+        btnmap = (Button) findViewById(R.id.btnmap);
 
         btnmap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Lat = "+lat+":Lng = "+lng, Toast.LENGTH_SHORT).show();
+                Register();
             }
         });
 
+        android.widget.Toolbar toolbar = (android.widget.Toolbar) findViewById(R.id.my_toolbar);
+        setActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+
+
+        //back button
+        getActionBar().setDisplayShowHomeEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         listPoints = new ArrayList<>();
-        return view;
+
     }
 
     @Override
@@ -63,8 +87,8 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
         mMap = googleMap;
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
             return;
         }
         mMap.setMyLocationEnabled(true);
@@ -96,4 +120,66 @@ public class getResLocationsMapsActivity extends Fragment implements OnMapReadyC
             lng = latLng.longitude;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void Register(){
+
+        String latS = Double.toString(lat);
+        String lngS = Double.toString(lng);
+
+        resMapAdd = latS+","+lngS;
+
+        try {
+            //get intent to get person id
+            name = getIntent().getStringExtra("name");
+            surname = getIntent().getStringExtra("surname");
+            phone = getIntent().getStringExtra("phone");
+            email = getIntent().getStringExtra("email");
+            pass = getIntent().getStringExtra("pass");
+            resName = getIntent().getStringExtra("resName");
+            resAdd = getIntent().getStringExtra("resAdd");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplication(), "Lat,Lng = "+resMapAdd, Toast.LENGTH_SHORT).show();
+
+        ipConfig ip = new ipConfig();
+        final String baseUrl = ip.getBaseUrlRes() ;
+
+
+            Ion.with(getApplication())
+                    .load(baseUrl+"ResRegister.php")
+                    .setMultipartParameter("name", name)
+                    .setMultipartParameter("surname", surname)
+                    .setMultipartParameter("phone", phone)
+                    .setMultipartParameter("email", email)
+                    .setMultipartParameter("pass", pass)
+                    .setMultipartParameter("resName", resName)
+                    .setMultipartParameter("resAdd", resAdd)
+                    .setMultipartParameter("resMapAdd", resMapAdd)
+                    .asJsonObject()
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            String re = result.get("res").getAsString();
+                            String res = result.get("status").getAsString();
+                            if (res.endsWith("#1")) {
+                                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                                Toast.makeText(getBaseContext(), re, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getBaseContext(), re, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+    }
+
 }

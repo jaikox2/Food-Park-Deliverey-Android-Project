@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme2"
-    tools:context=".Restaurant.profile">
+    tools:context=".Restaurant.UpdateProfile">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,71 +15,59 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-        <RelativeLayout
-            android:id="@+id/rellay1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:paddingBottom="20dp">
-
             <RelativeLayout
-                android:id="@+id/imgUser"
-                android:layout_width="wrap_content"
+                android:id="@+id/rellay1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/circle_border">
+                android:background="@color/colorPrimary"
+                android:paddingBottom="20dp">
 
-                <ImageView
-                    android:id="@+id/profileImg"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="9dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle"
-                    android:padding="3dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:drawable/sym_def_app_icon" />
+                <RelativeLayout
+                    android:id="@+id/imgUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/circle_border">
+
+                    <ImageView
+                        android:id="@+id/profileImg"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="9dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle"
+                        android:padding="3dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/sym_def_app_icon" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/res_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgUser"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15sp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="ชื่อร้านอาหาร"
+                    android:textColor="@color/colorAccent1"
+                    android:textSize="32sp" />
+
+
+                <EditText
+                    android:id="@+id/res_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/res_name"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:text="ที่อยู่ร้าน"
+                    android:textColor="@color/colorAccent1"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/res_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imgUser"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15sp"
-                android:fontFamily="sans-serif-light"
-                android:text="ชื่อร้านอาหาร"
-                android:textColor="@color/colorAccent1"
-                android:textSize="32sp" />
-
-
-            <TextView
-                android:id="@+id/res_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_name"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="ที่อยู่ร้าน"
-                android:textAllCaps="true"
-                android:textColor="@color/colorAccent1"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/edit_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
-
-        </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -113,7 +100,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -122,7 +109,7 @@
                                 android:textColor="#000000"
                                 android:textSize="18sp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/surname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -185,7 +172,7 @@
                             android:textColor="@color/headings"
                             android:textSize="13sp" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/res_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -215,7 +202,7 @@
                             android:textColor="@color/headings"
                             android:textSize="13sp" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/res_MapAdd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -232,12 +219,12 @@
 
                     </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/LinearLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical" >
+                    <LinearLayout
+                        android:id="@+id/LinearLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical" >
 
                         <Button
                             android:id="@+id/floatingActionButton2"
@@ -245,13 +232,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="50dp"
                             android:layout_marginBottom="50dp"
-                            android:text="ออกจากระบบ"
+                            android:text="บันทึก"
                             android:textColor="@android:color/white"
                             android:layout_centerInParent="true"
                             android:textSize="18sp"
                             android:background="@drawable/border"/>
 
-                </LinearLayout>
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -259,5 +246,4 @@
         </LinearLayout>
     </ScrollView>
 
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

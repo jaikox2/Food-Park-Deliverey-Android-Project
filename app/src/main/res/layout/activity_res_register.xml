@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#343F4B"
+    android:background="#5f6f88"
     tools:context=".Restaurant.ResRegister">
 
 
@@ -26,12 +26,14 @@
                 android:text="Food Park Delivery"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:textSize="30sp" />
+                android:textSize="36sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/roboto_black"
                 android:text="Register"
                 android:textAlignment="center"
@@ -190,7 +192,7 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:fontFamily="@font/roboto_black"
@@ -240,45 +242,6 @@
                 android:textColor="@android:color/background_light"
                 android:textColorHint="@android:color/darker_gray"
                 android:textCursorDrawable="@drawable/color_cursor" />
-
-            <Button
-                android:id="@+id/mapbtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/border"
-                android:fontFamily="@font/roboto_black"
-                android:text="Map"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editResMapAdd"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/border"
-                android:ems="10"
-                android:fontFamily="@font/roboto_black"
-                android:hint="Map address"
-                android:inputType="textPersonName"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/darker_gray"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.114"
-                tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/Register"

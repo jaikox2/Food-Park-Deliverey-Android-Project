@@ -293,6 +293,7 @@ public class UpdateFood extends PermissionActivity {
                                 String res = result.get("status").getAsString();
                                 notifBuilder.setProgress(100, 100, false);
                                 notifBuilder.setContentText(res);
+                                notifBuilder.setContentTitle("Food Park Delivery");
                                 Notification notif = notifBuilder.build();
                                 notifMan.notify(id, notif);
 

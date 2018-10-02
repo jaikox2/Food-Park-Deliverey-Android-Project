@@ -1,8 +1,12 @@
 package com.example.pang.foodparkdelivery.Restaurant;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -11,11 +15,15 @@ import com.example.pang.foodparkdelivery.R;
 
 public class ResMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    Activity mActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_res_menu);
+
+        setTitle("                Food Park Delivery");
 
         //loading the default fragment
         loadFragment(new Home());
@@ -40,6 +48,10 @@ public class ResMenuActivity extends AppCompatActivity implements BottomNavigati
                 break;
 
             case R.id.navigation_notifications:
+                fragment = new Notification();
+                break;
+
+            case R.id.navigation_profile:
                 fragment = new profile();
                 break;
         }
@@ -57,5 +69,29 @@ public class ResMenuActivity extends AppCompatActivity implements BottomNavigati
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+
+        new AlertDialog.Builder(this)
+                .setTitle("Food Park Delivery")
+                .setMessage("Do you really want to exit?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        moveTaskToBack(true);
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(1);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_menu_close_clear_cancel)
+                .show();
+
     }
 }

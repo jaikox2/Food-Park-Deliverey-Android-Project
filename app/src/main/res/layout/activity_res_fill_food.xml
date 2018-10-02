@@ -175,33 +175,43 @@
                 android:src="@drawable/ic_profile_black_24dp1"
                 android:background="#F0F3F6" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginLeft="21dp"
-                android:layout_marginRight="21dp"
-                android:layout_marginStart="155dp"
-                android:layout_alignLeft="@+id/edtPrice"
-                android:layout_alignStart="@+id/edtPrice"
-                android:layout_below="@+id/edtPrice"
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_marginTop="16dp"
-                android:clickable="true"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                android:layout_below="@+id/imageView2"
+                android:orientation="vertical" >
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/floatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignLeft="@+id/edtPrice"
+                    android:layout_alignStart="@+id/edtPrice"
+                    android:layout_below="@+id/edtPrice"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="58dp"
                 android:layout_alignLeft="@+id/floatingActionButton"
                 android:layout_alignStart="@+id/floatingActionButton"
                 android:layout_below="@+id/floatingActionButton"
                 android:layout_marginTop="16dp"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_black"
+                android:textColor="@android:color/white"
                 android:text="บันทึก"
-                android:textSize="18sp" />
+                android:background="@drawable/border" />
 
         </LinearLayout>
     </ScrollView>

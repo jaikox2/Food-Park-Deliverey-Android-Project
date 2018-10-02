@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,7 +19,8 @@ import com.koushikdutta.ion.Ion;
 
 public class ResRegister extends Activity {
     Button register,cancel,map;
-    EditText name,surname,phone,email,pass,Cpass,resName,resAdd,resMapAdd;
+    EditText name,surname,phone,email,pass,Cpass,resName,resAdd;
+    Activity mActivity;
 
 
     @Override
@@ -37,17 +39,8 @@ public class ResRegister extends Activity {
         Cpass = (EditText) findViewById(R.id.editCpass);
         resName = (EditText) findViewById(R.id.editResName);
         resAdd = (EditText) findViewById(R.id.editResAdd);
-        resMapAdd = (EditText) findViewById(R.id.editResMapAdd);
         cancel = (Button) findViewById(R.id.Cancel);
         register = (Button) findViewById(R.id.Register);
-        map = (Button) findViewById(R.id.mapbtn);
-
-        map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ShowMapAndSubmit.class));
-            }
-        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +52,18 @@ public class ResRegister extends Activity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ResLogin.class));
+                mActivity.finish();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void Register(){
@@ -69,35 +71,25 @@ public class ResRegister extends Activity {
         String pass1 = pass.getText().toString();
         String pass2 = Cpass.getText().toString();
 
-        ipConfig ip = new ipConfig();
-        final String baseUrl = ip.getBaseUrlRes() ;
+        String name1 = name.getText().toString();
+        String surname1 = surname.getText().toString();
+        String phone1 = phone.getText().toString();
+        String email1 = email.getText().toString();
+        String resName1 = resName.getText().toString();
+        String resAdd1 = resAdd.getText().toString();
 
         if(pass1.equals(pass2)) {
 
-            Ion.with(getApplicationContext())
-                    .load(baseUrl+"ResRegister.php")
-                    .setMultipartParameter("name", name.getText().toString())
-                    .setMultipartParameter("surname", surname.getText().toString())
-                    .setMultipartParameter("phone", phone.getText().toString())
-                    .setMultipartParameter("email", email.getText().toString())
-                    .setMultipartParameter("pass", pass.getText().toString())
-                    .setMultipartParameter("resName", resName.getText().toString())
-                    .setMultipartParameter("resAdd", resAdd.getText().toString())
-                    .setMultipartParameter("resMapAdd", resMapAdd.getText().toString())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            String re = result.get("res").getAsString();
-                            String res = result.get("status").getAsString();
-                            if (res.endsWith("#1")) {
-                                startActivity(new Intent(getApplicationContext(), ResLogin.class));
-                                Toast.makeText(getBaseContext(), re, Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getBaseContext(), re, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+        Intent goToUpdate = new Intent(this, getResLocationsMapsActivity.class);
+        goToUpdate.putExtra("name", name1);
+        goToUpdate.putExtra("surname", surname1);
+        goToUpdate.putExtra("phone",phone1);
+        goToUpdate.putExtra("email", email1);
+        goToUpdate.putExtra("pass", pass1);
+        goToUpdate.putExtra("resName", resName1);
+        goToUpdate.putExtra("resAdd", resAdd1);
+        this.startActivity(goToUpdate);
+
         }else {
             Toast.makeText(getBaseContext(), "รหัสผ่านยืนยันไม่ถูกต้อง", Toast.LENGTH_LONG).show();
         }

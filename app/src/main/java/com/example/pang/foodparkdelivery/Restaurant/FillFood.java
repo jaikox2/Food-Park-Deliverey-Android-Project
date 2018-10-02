@@ -220,6 +220,7 @@ public class FillFood extends PermissionFragment {
                         public void onCompleted(Exception e, JsonObject result) {
                             String res = result.get("status").getAsString();
                             notifBuilder.setProgress(100, 100, false);
+                            notifBuilder.setContentTitle("Food Park Delivery");
                             notifBuilder.setContentText(res);
                             Notification notif = notifBuilder.build();
                             notifMan.notify(id, notif);

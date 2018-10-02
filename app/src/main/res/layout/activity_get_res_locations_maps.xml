@@ -9,11 +9,22 @@
     android:layout_height="match_parent"
     tools:context=".Restaurant.getResLocationsMapsActivity">
 
+    <android.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:subtitleTextAppearance="@android:color/background_light"
+        android:textColor="@android:color/white"
+        android:theme="@style/AppTheme1" />
 
-<fragment
+
+    <fragment
     android:id="@+id/map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
     android:layout_marginBottom="56dp"
     android:name="com.google.android.gms.maps.SupportMapFragment"
      />

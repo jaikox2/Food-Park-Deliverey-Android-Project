@@ -194,11 +194,14 @@
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="58dp"
                 android:layout_alignLeft="@+id/floatingActionButton"
                 android:layout_alignStart="@+id/floatingActionButton"
                 android:layout_below="@+id/floatingActionButton"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/border"
+                android:fontFamily="@font/roboto_black"
+                android:textColor="@android:color/white"
                 android:text="บันทึก"
                 android:textSize="18sp" />
         </LinearLayout>
